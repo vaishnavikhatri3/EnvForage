@@ -104,15 +104,15 @@ export default function ProfileDetailPage() {
               </thead>
               <tbody>
                 {profile.packages.map((pkg, idx) => (
-                  <tr key={pkg.name} style={{ borderBottom: idx === profile.packages.length - 1 ? 'none' : '1px solid var(--border-subtle)' }}>
+                  <tr key={pkg.package_name} style={{ borderBottom: idx === profile.packages.length - 1 ? 'none' : '1px solid var(--border-subtle)' }}>
                     <td style={{ padding: '1rem 1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                       <Box size={16} color="var(--brand-primary)" />
-                      {pkg.name}
-                      {pkg.cuda_variant_required && <span style={{ fontSize: '0.7rem', background: 'rgba(16, 185, 129, 0.1)', color: 'var(--brand-accent)', padding: '0.1rem 0.4rem', borderRadius: '4px' }}>CUDA suffix</span>}
+                      {pkg.package_name}
+                      {pkg.cuda_variant && <span style={{ fontSize: '0.7rem', background: 'rgba(16, 185, 129, 0.1)', color: 'var(--brand-accent)', padding: '0.1rem 0.4rem', borderRadius: '4px' }}>CUDA suffix</span>}
                     </td>
-                    <td style={{ padding: '1rem 1.5rem', fontFamily: 'var(--font-mono)' }}>{pkg.version}</td>
+                    <td style={{ padding: '1rem 1.5rem', fontFamily: 'var(--font-mono)' }}>{pkg.version_spec}</td>
                     <td style={{ padding: '1rem 1.5rem' }}>
-                      {pkg.is_core ? <CheckCircle size={18} color="var(--brand-accent)" /> : <span style={{ color: 'var(--text-muted)' }}>-</span>}
+                      {!pkg.is_optional ? <CheckCircle size={18} color="var(--brand-accent)" /> : <span style={{ color: 'var(--text-muted)' }}>-</span>}
                     </td>
                   </tr>
                 ))}

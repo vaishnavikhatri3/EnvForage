@@ -15,6 +15,8 @@ class PackageSpecSchema(BaseModel):
     is_optional: bool = False
     install_order: int = 0
 
+    model_config = {"from_attributes": True}
+
 
 # ── Profile schemas ────────────────────────────────────────────────────────────
 

@@ -1,8 +1,8 @@
 export interface PackageDef {
-  name: string;
-  version: string;
-  is_core: boolean;
-  cuda_variant_required: boolean;
+  package_name: string;
+  version_spec: string;
+  is_optional: boolean;
+  cuda_variant: string | null;
 }
 
 export interface Profile {
