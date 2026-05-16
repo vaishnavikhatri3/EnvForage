@@ -37,7 +37,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      REDIS_URL : redis://redis:6379
+      REDIS_URL: redis://redis:6379
       DATABASE_URL: postgresql+asyncpg://envforge:envforge_dev_secret@db:5432/envforge
       ENVIRONMENT: development
       DEBUG: "true"
