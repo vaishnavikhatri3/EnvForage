@@ -92,7 +92,8 @@ def diagnose(output: str | None, send: bool, api_url: str, quiet: bool, sarif: b
 
 # ── SARIF output ────────────────────────────────────────────────────────
     if sarif:
-        click.echo(json.dumps(report.to_sarif(), indent=2))
+        import json as _json
+        click.echo(_json.dumps(report.to_sarif(), indent=2))
         return
     
     report_json = report.to_json(indent=2)
@@ -139,6 +140,12 @@ def _print_report_summary(report: DiagnosticReport) -> None:
             table.add_row("CUDA Path", report.cuda.toolkit_path)
     else:
         table.add_row("CUDA", "[dim]Not detected[/]")
+
+    if report.rocm.version:
+        gcn = f" (GCN {report.rocm.gcn_arch})" if report.rocm.gcn_arch else ""
+        table.add_row("ROCm", f"{report.rocm.version}{gcn}")
+    else:
+        table.add_row("ROCm", "[dim]Not detected[/]")
 
     if report.active_python:
         py = report.active_python
