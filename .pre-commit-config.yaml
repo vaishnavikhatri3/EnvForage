@@ -19,7 +19,8 @@ repos:
     rev: v4.6.0
     hooks:
       - id: trailing-whitespace
-
+        exclude: ^backend/alembic/
       - id: end-of-file-fixer
-
+        exclude: ^backend/alembic/
       - id: check-yaml
+        exclude: ^backend/alembic/
