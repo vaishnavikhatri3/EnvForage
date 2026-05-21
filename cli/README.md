@@ -66,3 +66,9 @@ All commands output `DiagnosticReport` JSON compatible with `POST /api/v1/diagno
 | Windows 10/11 | ✅ Full support |
 | WSL2 | ✅ Full support |
 | macOS | ❌ Out of scope (no CUDA) |
+
+## Troubleshooting
+
+For common CLI, API, and environment issues, see:
+
+`../TROUBLESHOOTING.md`
