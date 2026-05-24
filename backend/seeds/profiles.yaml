@@ -43,7 +43,7 @@ profiles:
     os_support: [LINUX, WSL]
     cuda_required: true
     python_versions: ["3.10", "3.11", "3.12", "3.13"]
-    cuda_versions: ["12.1"]
+    cuda_versions: ["11.8", "12.1"]
     status: ACTIVE
     last_validated: "2026-05-24"
     packages:
@@ -68,7 +68,7 @@ profiles:
     tags: [computer-vision, object-detection, yolo, gpu]
     os_support: [LINUX, WSL, WIN]
     cuda_required: false
-    python_versions: ["3.10", "3.11", "3.12", "3.13"]
+    python_versions: ["3.10", "3.11", "3.12"]
     cuda_versions: ["11.8", "12.1"]
     status: ACTIVE
     last_validated: "2026-05-24"
