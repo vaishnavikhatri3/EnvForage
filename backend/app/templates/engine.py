@@ -21,18 +21,18 @@ TEMPLATES_DIR = Path(__file__).parent / "jinja"
 
 # ── Template name → output filename mapping ────────────────────────────────────
 TEMPLATE_MAP: dict[str, str] = {
-    "setup.sh": "setup/setup_linux.sh.j2",
-    "setup.ps1": "setup/setup_windows.ps1.j2",
-    "requirements.txt": "config/requirements.j2",
-    "Dockerfile": "config/dockerfile.j2",
-    "devcontainer.json": "config/devcontainer.j2",
-    "verify.sh": "verify/verify_generic.sh.j2",
-    "verify_torch.sh": "verify/verify_torch.sh.j2",
-    "verify_tf.sh": "verify/verify_tf.sh.j2",
-    "verify_opencv.sh": "verify/verify_opencv.sh.j2",
-    "environment.yml": "config/environment.yml.j2",
-    "pyproject.toml": "config/pyproject.toml.j2",
-    "Makefile": "config/makefile.j2",
+    "setup.sh":           "setup/setup_linux.sh.j2",
+    "setup.ps1":          "setup/setup_windows.ps1.j2",
+    "requirements.txt":   "config/requirements.j2",
+    "Dockerfile":         "config/dockerfile.j2",
+    "docker-compose.yml": "config/docker-compose.yml.j2",
+    "devcontainer.json":  "config/devcontainer.j2",
+    "verify.sh":          "verify/verify_generic.sh.j2",
+    "verify_torch.sh":    "verify/verify_torch.sh.j2",
+    "verify_tf.sh":       "verify/verify_tf.sh.j2",
+    "verify_opencv.sh":   "verify/verify_opencv.sh.j2",
+    "environment.yml":    "config/environment.yml.j2",
+    "pyproject.toml":     "config/pyproject.toml.j2",
 }
 
 # ── Profile-specific verify template mapping ───────────────────────────────────
