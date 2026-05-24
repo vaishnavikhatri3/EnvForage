@@ -73,7 +73,15 @@ def cli() -> None:
     help="Output diagnostics in SARIF 2.1.0 format for CI/CD pipeline integrations.",
 )
 
-def diagnose(output: str | None, send: bool, api_url: str, quiet: bool, sarif: bool) -> None:
+@click.option(
+    "--timeout", "-t",
+    type=int,
+    default=30,
+    show_default=True,
+    help="Timeout in seconds for each detector subprocess call. Default: 30s.",
+)
+
+def diagnose(output: str | None, send: bool, api_url: str, quiet: bool, sarif: bool, timeout: int) -> None:
     """
     Collect a full diagnostic report of this machine's ML environment.
 
@@ -87,7 +95,7 @@ def diagnose(output: str | None, send: bool, api_url: str, quiet: bool, sarif: b
             expand=False,
         ))
 
-    report = ReportBuilder().build()
+    report = ReportBuilder(timeout=timeout).build()
 
     if not quiet:
         _print_report_summary(report)
