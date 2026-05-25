@@ -97,10 +97,17 @@ class LockfileSource(Source):
             line = raw_line.split("#", 1)[0].strip()
             if not line or line.startswith("-"):
                 continue
-            if "==" not in line:
+
+            # Detect '===' (PEP 440 arbitrary equality) before '==' so we
+            # don't misparse 'pkg===1.0' as 'pkg==' + '=1.0'.
+            if "===" in line:
+                separator = "==="
+            elif "==" in line:
+                separator = "=="
+            else:
                 continue
 
-            name_part, version_part = line.split("==", 1)
+            name_part, version_part = line.split(separator, 1)
             name = name_part.split("[", 1)[0].split(";", 1)[0].strip()
             version = version_part.split(";", 1)[0].strip()
             if name and version:

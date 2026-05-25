@@ -97,6 +97,14 @@ class TestLockfileSource:
     def test_raises_on_missing_file(self):
         with pytest.raises(FileNotFoundError):
             list(LockfileSource("/does/not/exist.txt").packages())
+    
+    def test_handles_arbitrary_equality(self, tmp_path: Path):
+        """PEP 440 === (arbitrary equality) should parse correctly,
+        not as == with a leading '=' in the version."""
+        lockfile = tmp_path / "req.txt"
+        lockfile.write_text("mypackage===1.0.local+build\n")
+        packages = list(LockfileSource(lockfile).packages())
+        assert packages == [Package(name="mypackage", version="1.0.local+build")]
 
 
 class _StubSource:
