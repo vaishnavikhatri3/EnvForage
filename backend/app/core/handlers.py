@@ -18,7 +18,12 @@ from app.core.exceptions import (
 logger = logging.getLogger(__name__)
 
 
-def _error_response(status_code: int, code: str, message: str, details: dict) -> JSONResponse:
+def _error_response(
+    status_code: int,
+    code: str,
+    message: str,
+    details: dict[str, object] | list[dict[str, object]],
+) -> JSONResponse:
     return JSONResponse(
         status_code=status_code,
         content={
@@ -33,14 +38,16 @@ def _error_response(status_code: int, code: str, message: str, details: dict) ->
     )
 
 
-def _redact_validation_errors(errors: list) -> list:
+def _redact_validation_errors(
+    errors: list[dict[str, object]],
+) -> list[dict[str, object]]:
     """Strip user-supplied input values from validation errors before
     logging or returning them to the client."""
-    redacted = []
+    redacted: list[dict[str, object]] = []
     for error in errors:
         redacted.append({
             "type": error.get("type"),
-            "loc": list(error.get("loc", [])),
+            "loc": list(error.get("loc", [])),  # type: ignore[arg-type]
             "msg": error.get("msg"),
         })
     return redacted
@@ -49,9 +56,14 @@ def _redact_validation_errors(errors: list) -> list:
 def register_exception_handlers(app: FastAPI) -> None:
     """Register application-wide exception handlers."""
 
-    async def app_exception_handler(request: Request, exc: AppError) -> JSONResponse:
+    async def app_exception_handler(
+        request: Request, exc: Exception
+    ) -> JSONResponse:
+        assert isinstance(exc, AppError)
         logger.error("%s: %s", exc.error_code, exc.message)
-        return _error_response(exc.status_code, exc.error_code, exc.message, exc.details or {})
+        return _error_response(
+            exc.status_code, exc.error_code, exc.message, exc.details or {}
+        )
 
     for exc_class in (
         EntityNotFoundError,
@@ -68,9 +80,13 @@ def register_exception_handlers(app: FastAPI) -> None:
         request: Request,
         exc: RequestValidationError,
     ) -> JSONResponse:
-        redacted = _redact_validation_errors(exc.errors())
+        redacted = _redact_validation_errors(
+            exc.errors()  # type: ignore[arg-type]
+        )
         logger.warning("Validation error: %s", redacted)
-        return _error_response(422, "VALIDATION_ERROR", "Request validation failed.", redacted)
+        return _error_response(
+            422, "VALIDATION_ERROR", "Request validation failed.", redacted
+        )
 
     @app.exception_handler(Exception)
     async def unhandled_exception_handler(
@@ -78,5 +94,6 @@ def register_exception_handlers(app: FastAPI) -> None:
         exc: Exception,
     ) -> JSONResponse:
         logger.exception("Unhandled exception: %s", exc)
-        return _error_response(500, "INTERNAL_SERVER_ERROR", "An unexpected error occurred.", {})
-
+        return _error_response(
+            500, "INTERNAL_SERVER_ERROR", "An unexpected error occurred.", {}
+        )
