@@ -508,7 +508,11 @@ def rollback() -> None:
     import glob
     import shutil
 
-    backups = glob.glob("*_backup_*") + glob.glob(".*_backup_*")
+    backups = sorted(
+        p
+        for p in (glob.glob("*_backup_*") + glob.glob(".*_backup_*"))
+        if Path(p).is_dir()
+    )
 
     if not backups:
         err_console.print("[ERROR] No backup directories found in the current directory.")
