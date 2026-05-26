@@ -163,11 +163,20 @@ class DiagnosticReportSchema(BaseModel):
         description="Detected GPUs on the system.",
     )
     cuda: CUDAInfo = Field(
-        default_factory=CUDAInfo,
+        default_factory=lambda: CUDAInfo(
+            version=None,
+            toolkit_path=None,
+            cudnn_version=None,
+            nccl_version=None,
+        ),
         description="Detected CUDA installation information.",
     )
+
     rocm: ROCMInfo = Field(
-        default_factory=ROCMInfo,
+        default_factory=lambda: ROCMInfo(
+            version=None,
+            gcn_arch=None,
+        ),
         description="Detected ROCm installation information.",
     )
     python_installations: list[PythonInfo] = Field(
@@ -287,4 +296,3 @@ class DiagnoseResponse(BaseModel):
         description="General compatibility recommendations.",
         examples=[["Upgrade NVIDIA driver to latest stable release"]],
     )
-
