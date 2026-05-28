@@ -63,6 +63,7 @@ jobs:
           push: true
           build-args: |
             NEXT_PUBLIC_API_URL=/api/v1
+            BACKEND_API_URL=http://api:8000
           tags: |
             ghcr.io/${{ env.REPO_LC }}/frontend:latest
             ghcr.io/${{ env.REPO_LC }}/frontend:${{ github.ref_name }}

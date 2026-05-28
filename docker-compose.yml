@@ -76,13 +76,13 @@ services:
       dockerfile: Dockerfile
       args:
         - NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+        - BACKEND_API_URL=http://api:8000
     container_name: envforge_frontend
     restart: unless-stopped
     ports:
       - "3000:3000"
     environment:
       - PORT=3000
-      - BACKEND_API_URL=http://api:8000
     depends_on:
       - api
 

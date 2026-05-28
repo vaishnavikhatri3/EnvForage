@@ -16,9 +16,14 @@ COPY . .
 # Disable Next.js telemetry during the build phase
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Build-time environment variable to target the API
+# Build-time ARG: public API URL (used by frontend fetch calls)
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+
+# Build-time ARG: internal backend URL used by next.config.ts rewrites()
+# Must be passed at build time — rewrites() runs during `npm run build`, not at runtime
+ARG BACKEND_API_URL
+ENV BACKEND_API_URL=${BACKEND_API_URL}
 
 RUN npm run build
 
