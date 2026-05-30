@@ -185,8 +185,9 @@ function WizardContent() {
                       setPythonVersion(p.python_versions[0]);
                     }
 
-                    if (p.cuda_required && p.cuda_versions?.length > 0) {
-                      setCudaVersion(p.cuda_versions[0]);
+                    const cudaVersions = p.cuda_versions ?? [];
+                    if (p.cuda_required && cudaVersions.length > 0) {
+                      setCudaVersion(cudaVersions[0]);
                     } else {
                       setCudaVersion("");
                     }
