@@ -17,7 +17,7 @@ from app.compatibility.models import FrameworkVersionEntry
 
 # ── Framework Version → Python Compatibility ──────────────────────────────────
 
-PYTHON_MATRIX: dict[str, list[FrameworkVersionEntry]] = {
+_HARDCODED_MATRIX: dict[str, list[FrameworkVersionEntry]] = {
     "torch": [
         FrameworkVersionEntry(
             framework="torch", version="2.0.0",
@@ -190,7 +190,7 @@ MATRIX_JSON_PATH = Path(__file__).resolve().parent / "python_matrix_data.json"
 with open(MATRIX_JSON_PATH) as f:
     _raw_data = json.load(f)
 
-PYTHON_MATRIX: dict[str, list[FrameworkVersionEntry]] = {}
+PYTHON_MATRIX: dict[str, list[FrameworkVersionEntry]] = dict(_HARDCODED_MATRIX)
 for _framework, _entries in _raw_data.items():
     PYTHON_MATRIX[_framework] = [FrameworkVersionEntry(**kwargs) for kwargs in _entries]
 
